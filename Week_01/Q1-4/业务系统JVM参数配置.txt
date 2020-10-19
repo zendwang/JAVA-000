@@ -1,0 +1,58 @@
+
+线上参数
+-D[Standalone]
+JBoss运行启动方式:standalone和domain
+-XX:MaxPermSize=512m
+java8的虚拟机内存机制较java7有变化，去除了永久代的概念，改用元数据空间，使用JDK 8.0，应把PermSize、MaxPermSize两个参数设置去掉
+-Djava.net.preferIPv4Stack=true
+-Dfile.encoding=UTF-8
+-Dsun.jnu.encoding=UTF-8
+
+-verbose:gc
+-XX:+PrintGCDetails
+-XX:+PrintGCTimeStamps
+-XX:+PrintHeapAtGC
+-XX:+PrintGCDateStamps
+-Xloggc:/opt/wildfly/standalone/log/verbose.gc
+指定GC日志文件路径
+-XX:+UseGCLogFileRotation
+打开或关闭GC日志滚动记录功能，要求必须设置 -Xloggc参数
+-XX:NumberOfGCLogFiles=10
+设置滚动日志文件的个数，必须大于1
+日志文件命名策略是，<filename>.0, <filename>.1, ..., <filename>.n-1，其中n是该参数的值
+-XX:GCLogFileSize=20M
+设置滚动日志文件的大小，
+必须大于8k当前写日志文件大小超过该参数值时，日志将写入下一个文件
+
+-XX:+HeapDumpOnOutOfMemoryError
+当OutOfMemoryError产生，自动Dump堆内存
+-XX:HeapDumpPath=/opt/wildfly/standalone/log/
+指定内存溢出时Dump文件目录，配合HeapDumpOnOutOfMemoryError使用
+
+-Djboss.modules.system.pkgs=org.jboss.byteman
+-Djava.awt.headless=true
+-Dcom.ibm.mq.cfg.TCP.Connect_Timeout=20
+
+-Xms1536m
+最小堆内存
+-Xmx1536m
+最大堆内存
+
+-XX:+UseConcMarkSweepGC
+老年代为CMS收集器
+-XX:+UseParNewGC
+年轻代为多线程收集器,可与CMS收集器搭配使用
+-XX:+CMSParallelRemarkEnabled
+手动配置开启并行标记，节省年轻代标记时间，JDK1.6以前不需要配置，默认开启
+-Xverify:none
+禁用验证器,关闭大部分的验证措施，以缩短虚拟机类加载的时间
+-javaagent:/opt/wildfly/ares/agent/ares-agent.core-0.0.1.jar
+-Dorg.jboss.boot.log.file=/opt/wildfly/standalone/log/server.log
+-Dlogging.configuration=file:/opt/wildfly/standalone/configuration/logging.properties
+
+
+我的思考：
+1.应线上就是jdk1.8,java8去掉永久代的概念，改为元空间 -XX:MaxPermSize=512m 可去掉
+2.-XX:+UseGCLogFileRotation 该参数实现日志滚动记录，网上说应该避免使用，会带来丢失旧的GC日志的问题，
+建议按时间生成日志文件 -Xloggc:/home/GCEASY/gc-%t.log，`%t` 后缀格式生成的时间戳格式为 `YYYY-MM-DD_HH-MM-SS`
+但我个人觉得这样gc日志量会很大，只有遇到问题需要排查时才可能会去看一下gc日志，历史的gc日志应该用处不大，生成过多的文件增加系统开销。

@@ -1,0 +1,110 @@
+E:\private_ws\javasourcecode\src\main\java>javap -c -verbose  Hello
+Classfile /E:/private_ws/javasourcecode/src/main/java/Hello.class
+  Last modified 2020-10-19; size 531 bytes
+  MD5 checksum ad09eb074b02c976baeb5af0b63919b9
+  Compiled from "Hello.java"
+public class Hello
+  minor version: 0
+  major version: 52
+  flags: ACC_PUBLIC, ACC_SUPER
+Constant pool:
+   #1 = Methodref          #5.#16         // java/lang/Object."<init>":()V
+   #2 = Fieldref           #17.#18        // java/lang/System.out:Ljava/io/PrintStream;
+   #3 = Methodref          #19.#20        // java/io/PrintStream.println:(I)V
+   #4 = Class              #21            // Hello
+   #5 = Class              #22            // java/lang/Object
+   #6 = Utf8               <init>
+   #7 = Utf8               ()V
+   #8 = Utf8               Code
+   #9 = Utf8               LineNumberTable
+  #10 = Utf8               main
+  #11 = Utf8               ([Ljava/lang/String;)V
+  #12 = Utf8               StackMapTable
+  #13 = Class              #23            // "[Ljava/lang/String;"
+  #14 = Utf8               SourceFile
+  #15 = Utf8               Hello.java
+  #16 = NameAndType        #6:#7          // "<init>":()V
+  #17 = Class              #24            // java/lang/System
+  #18 = NameAndType        #25:#26        // out:Ljava/io/PrintStream;
+  #19 = Class              #27            // java/io/PrintStream
+  #20 = NameAndType        #28:#29        // println:(I)V
+  #21 = Utf8               Hello
+  #22 = Utf8               java/lang/Object
+  #23 = Utf8               [Ljava/lang/String;
+  #24 = Utf8               java/lang/System
+  #25 = Utf8               out
+  #26 = Utf8               Ljava/io/PrintStream;
+  #27 = Utf8               java/io/PrintStream
+  #28 = Utf8               println
+  #29 = Utf8               (I)V
+{
+  public Hello();
+    descriptor: ()V
+    flags: ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         4: return
+      LineNumberTable:
+        line 1: 0
+
+  public static void main(java.lang.String[]);
+    descriptor: ([Ljava/lang/String;)V
+    flags: ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=2, locals=8, args_size=1 #栈深度2 局部变量数组大小8 参数数组大小1
+         0: iconst_1 #将一个常量1加载到操作数栈
+         1: istore_1 #将一个数值1从操作数栈存储到局部变量表
+         2: iconst_2 #将一个常量2加载到操作数栈
+         3: istore_2 #将一个数值2从操作数栈存储到局部变量表
+         4: iload_1  #将一个局部变量a加载到操作栈
+         5: iload_2  #将一个局部变量b加载到操作栈
+         6: iadd     #执行加法指令
+         7: istore_3 #将结果3从操作数栈存储到局部变量表
+         8: iload_3  #将一个局部变量c加载到操作栈
+         9: iload_1  #将一个局部变量a加载到操作栈
+        10: isub     #执行减法指令
+        11: istore        4
+        13: iload_3
+        14: iload_2
+        15: imul     #执行乘法指令
+        16: istore        5
+        18: iload         5
+        20: iconst_2
+        21: idiv     #执行除法指令
+        22: istore        6
+        24: iload         4  #将一个局部变量d加载到操作栈
+        26: ifle          53 #控制转移指令 <= d 跳转到53行
+        29: iconst_0
+        30: istore        7
+        32: iload         7 #将一个局部变量i加载到操作栈
+        34: iload         6 #将一个局部变量f加载到操作栈
+        36: if_icmpge     53
+        39: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+        42: iload         7
+        44: invokevirtual #3                  // Method java/io/PrintStream.println:(I)V
+        47: iinc          7, 1 #局部变量自增
+        50: goto          32
+        53: return
+      LineNumberTable:
+        line 6: 0
+        line 7: 2
+        line 8: 4
+        line 9: 8
+        line 10: 13
+        line 11: 18
+        line 13: 24
+        line 14: 29
+        line 15: 39
+        line 14: 47
+        line 18: 53
+      StackMapTable: number_of_entries = 2
+        frame_type = 255 /* full_frame */
+          offset_delta = 32
+          locals = [ class "[Ljava/lang/String;", int, int, int, int, int, int, int ]
+          stack = []
+        frame_type = 250 /* chop */
+          offset_delta = 20
+}
+SourceFile: "Hello.java"
