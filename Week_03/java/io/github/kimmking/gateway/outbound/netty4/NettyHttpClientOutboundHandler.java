@@ -1,13 +1,18 @@
-### 第一题
-参考老师的
-HttpOutboundHandler.java
-NamedThreadFactory.java
-异步httpclient + 线程池
-整个过程中FullHttpRequest对象、ChannelHandlerContext对象都来自于代理服务中。
-### 第二题
-参见NettyHttpClientOutboundHandler.java
-自我感觉这块掌握的不好，这种形式比较耗费系统资源
-```java
+package io.github.kimmking.gateway.outbound.netty4;
+
+import io.netty.bootstrap.Bootstrap;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.EmptyByteBuf;
+import io.netty.buffer.Unpooled;
+import io.netty.channel.*;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.SocketChannel;
+import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.http.*;
+
+import java.net.URI;
+import java.nio.charset.Charset;
+
 public class NettyHttpClientOutboundHandler  extends ChannelInboundHandlerAdapter {
 
     private String backendUrl;
@@ -103,61 +108,3 @@ public class NettyHttpClientOutboundHandler  extends ChannelInboundHandlerAdapte
        ctx.close();
     }
 }
-```
-#### 第三题
-自定义增强过滤器类CustomHttpRequestFilter.java
-```java
-/**
- * 新增自定义 http request header
- */
-public class CustomHttpRequestFilter implements HttpRequestFilter {
-
-    private static final String  CUSTOM_HEADER= "nio";
-
-    public void filter(FullHttpRequest fullRequest, ChannelHandlerContext ctx) {
-        DefaultHttpRequest request = (DefaultHttpRequest) fullRequest;
-        request.headers().add(CUSTOM_HEADER,"wangzhenxian");
-    }
-}
-
-```
-在HttpInboundHandler.java中channelRead方法加上
-```java
-   ......
-    @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) {
-        try {
-            FullHttpRequest fullRequest = (FullHttpRequest) msg;
-
-            HttpRequestFilter filter = new CustomHttpRequestFilter();
-            filter.filter(fullRequest,ctx);
-            
-            handler.handle(fullRequest, ctx);
-        } catch(Exception e) {
-            e.printStackTrace();
-        } finally {
-            ReferenceCountUtil.release(msg);
-        }
-    }
-   ....
-```
-#### 第四题
-后端随机路由类HttpEndpointRandomRouter.java
-```java
-/**
- *随机路由
- *
- */
-public class HttpEndpointRandomRouter implements HttpEndpointRouter {
-    
-    public String route(List<String> endpoints) {
-        if(null == endpoints || 0 == endpoints.size() ) {
-            throw new IllegalArgumentException("endpoints must be not null or empty");
-        }
-        Random random = new Random();
-        int index = random.nextInt(endpoints.size());
-        return endpoints.get(index);
-    }
-    
-}
-```
