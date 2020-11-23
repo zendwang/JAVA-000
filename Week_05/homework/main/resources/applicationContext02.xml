@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context-3.2.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd"
+        >
+    <bean id="user" class="io.kimmking.assemblybean.annotation.User">
+        <constructor-arg name="name" value="tom" />
+        <constructor-arg name="age" value="15" />
+        <constructor-arg name="sex" value="male" />
+    </bean>
+    <bean id="us" class="io.kimmking.assemblybean.annotation.User">
+        <constructor-arg name="name" value="lucy" />
+        <constructor-arg name="age" value="18" />
+        <constructor-arg name="sex" value="female" />
+    </bean>
+    <bean id="user3" class="io.kimmking.assemblybean.annotation.User">
+        <constructor-arg name="name" value="lily" />
+        <constructor-arg name="age" value="20" />
+        <constructor-arg name="sex" value="female" />
+    </bean>
+    <bean  id="manger" class="io.kimmking.assemblybean.annotation.Manger"></bean>
+
+    <bean  id="businessManger" class="io.kimmking.assemblybean.annotation.BusinessManger"></bean>
+
+    <bean  id="customerManger" class="io.kimmking.assemblybean.annotation.CustomerManger"></bean>
+</beans>
